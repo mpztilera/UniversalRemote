@@ -14,6 +14,10 @@ public class VanillaPacketInterceptorInjector {
 	{
 		Util.logger.info("Injecting vanilla packet interceptors...");
 
+		if (event.getManager().channel().pipeline().get("universalremote_join_game_handler") != null)
+			event.getManager().channel().pipeline().remove("universalremote_join_game_handler");
+		if (event.getManager().channel().pipeline().get("universalremote_respawn_handler") != null)
+			event.getManager().channel().pipeline().remove("universalremote_respawn_handler");
 		event.getManager().channel().pipeline().addBefore("packet_handler", "universalremote_join_game_handler", new JoinGameInterceptor(event.getManager()));
 		event.getManager().channel().pipeline().addBefore("packet_handler", "universalremote_respawn_handler", new RespawnInterceptor(event.getManager()));
 	}
